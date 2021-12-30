@@ -74,8 +74,7 @@ Satellite_image_segmentation
 
 
 
-CHAPTER-4 :DATA PREPARATION
-
+CHAPTER-4 :DATA PREPARATION 
 Annotations reading and conversion:
     1. We will be taking annotations from annotators and corresponding images with TAB files. Then we will run data_to_xy file which converts the lat lon in the tab file  into pixels and save that pixels into a  csv file separately.
     2. We will provide saved pixels csv path(The csv which is created in the data_to_xy file) as input  with same corresponding images with TAB files into gen_fp_masks.py and we will get masks out of that and masks will be stored at one place.( To the address one will provide)
@@ -102,9 +101,7 @@ Output : masks images 
 
 
 
-CHAPTER-5:
-
-PREPROCESSING
+CHAPTER-5: PREPROCESSING
 File names = Cache_train.py, Extra_functions.py
 Dataset_path = /mnt/vol1/Datasets/Satellite_Images/
 
@@ -118,9 +115,7 @@ Dataset_path = /mnt/vol1/Datasets/Satellite_Images/
 
 
 
-CHAPTER-6:
-
-TRAINING MODEL
+CHAPTER-6: TRAINING MODEL
 File name= train_roads.py and Train_building.py (other reference file: train_building_test.py and train_building.py)
         Data usage : 4800*3705 for building (41 images) jpg with tab files
                               4800*3705 for roads (27 images) jpg with tab files
@@ -136,9 +131,7 @@ Output weights for Roads: 100.h5(citylevel) and 83.h5 (citylevel),state level no
 
 
 
-CHAPTER-7:
-
-VALIDATIONS /Predictions
+CHAPTER-7: VALIDATIONS /Predictions
 File name = make_predictions_building.py
 Paths = Model loading path
 Test images folder and same path will be given in extra functions too and it will be called automatically
@@ -156,9 +149,7 @@ Git_predict.py = model loading.
 
 
 
-CHAPTER-8:
-
-CODE AND IMPLEMENTATION
+CHAPTER-8: CODE AND IMPLEMENTATION
 Postman body parameters: name(pass without image extension),southeast,northwest and bounds(se and nw same)
 
 Steps to Run the files from start
@@ -180,15 +171,6 @@ Steps to Run the files from start
 
 
 
-
-
-
-CHAPTER-9:
-MISCELLANEOUS
-Redis -server : after installation of redis we need to run redis-server.sh file by using >> ./redis-server.sh 
-Celery : celery -A <celery-config-file> worker --loglevel=info
-
-Note: for frontend code we need to uncomment all os.remove lines and for postman testing we need to comment that os.remove code lines.
 
 
 
