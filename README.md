@@ -1,18 +1,5 @@
-# satellite_image_segmentation_deploy_v2
-
-
-
-
-
-
 SATELLITE IMAGE SEGMENTATION 
 -DHRUV RAGHAV
-
-
-
-
-
-
 
 
 
@@ -31,12 +18,6 @@ CONTENTS
 
 
 
-
-
-
-
-
-
 CHAPTER-1
 Documents and References:
     1. Single Api - Yes(api_deploy.py)
@@ -47,23 +28,8 @@ Documents and References:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 CHAPTER-2
+
 Environment Creation:(footprints 1.yml)
 
 There are two ways to create enviornment. Below are the mentioned ways :
@@ -99,16 +65,9 @@ packages to be installed :
            conda env create -–name enviornment_name2 -–file= enviornment_name1.yml
  	
 
-	
-
-
-
-
-
-
-
 
 CHAPTER-3
+
 Model Architecture (Unet)
 Building:
 Extended U-net is used in building segmentation which contains extended vgg16 model as encoder and decoder. Extended vgg includes addition of convolutional layers in vgg16 model. 
@@ -120,15 +79,8 @@ Satellite_image_segmentation
 
 
 
-
-
-
-
-
-
-
-
 CHAPTER-4
+
 DATA PREPARATION
 Annotations reading and conversion:
     1. We will be taking annotations from annotators and corresponding images with TAB files. Then we will run data_to_xy file which converts the lat lon in the tab file  into pixels and save that pixels into a  csv file separately.
@@ -152,24 +104,13 @@ Output : masks images 
 Gen_rd_masks.py for roads
 Input : data_to_xy generated csv path ,image folder path, output images path
 Output : masks images 
-
-
-
-
 /mnt/vol1/TTS_Test_data/Tacotron
 
 
 
-
-
-
-
-
-
-
-
 CHAPTER-5:
- PREPROCESSING
+
+PREPROCESSING
 File names = Cache_train.py, Extra_functions.py
 Dataset_path = /mnt/vol1/Datasets/Satellite_Images/
 
@@ -183,12 +124,8 @@ Dataset_path = /mnt/vol1/Datasets/Satellite_Images/
 
 
 
-
-
-
-
-
 CHAPTER-6:
+
 TRAINING MODEL
 File name= train_roads.py and Train_building.py (other reference file: train_building_test.py and train_building.py)
         Data usage : 4800*3705 for building (41 images) jpg with tab files
@@ -205,11 +142,8 @@ Output weights for Roads: 100.h5(citylevel) and 83.h5 (citylevel),state level no
 
 
 
-
-
-
-
 CHAPTER-7:
+
 VALIDATIONS /Predictions
 File name = make_predictions_building.py
 Paths = Model loading path
@@ -226,7 +160,10 @@ Git_api_test:
 Git_api.py = Model loaded locally
 Git_predict.py = model loading.
 
+
+
 CHAPTER-8:
+
 CODE AND IMPLEMENTATION
 Postman body parameters: name(pass without image extension),southeast,northwest and bounds(se and nw same)
 
