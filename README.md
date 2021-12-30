@@ -28,10 +28,7 @@ Documents and References:
 
 
 
-CHAPTER-2
-
-Environment Creation:(footprints 1.yml)
-
+CHAPTER-2 : Environment Creation:(footprints 1.yml)
 There are two ways to create enviornment. Below are the mentioned ways :
     • Manual installing packages in an enviornment.
     • Installing packages in the enviornment via YML file
@@ -66,9 +63,7 @@ packages to be installed :
  	
 
 
-CHAPTER-3
-
-Model Architecture (Unet)
+CHAPTER-3 : Model Architecture (Unet)
 Building:
 Extended U-net is used in building segmentation which contains extended vgg16 model as encoder and decoder. Extended vgg includes addition of convolutional layers in vgg16 model. 
 Road:
@@ -79,9 +74,8 @@ Satellite_image_segmentation
 
 
 
-CHAPTER-4
+CHAPTER-4 :DATA PREPARATION
 
-DATA PREPARATION
 Annotations reading and conversion:
     1. We will be taking annotations from annotators and corresponding images with TAB files. Then we will run data_to_xy file which converts the lat lon in the tab file  into pixels and save that pixels into a  csv file separately.
     2. We will provide saved pixels csv path(The csv which is created in the data_to_xy file) as input  with same corresponding images with TAB files into gen_fp_masks.py and we will get masks out of that and masks will be stored at one place.( To the address one will provide)
