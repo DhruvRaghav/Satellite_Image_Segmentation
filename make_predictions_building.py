@@ -53,19 +53,21 @@ def read_model(cross=''):
        #model = load_model(
            #'/mnt/vol1/PycharmProjects/Satellite_Image_Segmentation/snapshots/2020-07-16/2/100.h5',
        #custom_objects = {'jaccard_coef_loss': jaccard_coef_loss,'jaccard_coef_int': jaccard_coef_int,'jaccard_coef': jaccard_coef},compile=False)
-        model = load_model(
-             '/mnt/vol1/Project_Deployments/satellite_image_segmentation_deploy_v2/45.h5',
-             custom_objects={'jaccard_coef_loss': jaccard_coef_loss, 'jaccard_coef_int': jaccard_coef_int,
-                             'jaccard_coef': jaccard_coef}, compile=False)
+        # model = load_model(
+        #      '/mnt/vol1/Project_Deployments/satellite_image_segmentation_deploy_v2/snapshots/2021-04-03/2/46.h5',
+        #      custom_objects={'jaccard_coef_loss': jaccard_coef_loss, 'jaccard_coef_int': jaccard_coef_int,
+        #                      'jaccard_coef': jaccard_coef}, compile=False)
+        model = load_model('/mnt/vol1/Project_Deployments/satellite_image_segmentation_deploy_v2/roadnet_models/100.h5', custom_objects={'jaccard_coef_loss': jaccard_coef_loss,
+                                                                      'jaccard_coef_int': jaccard_coef_int,
+                                                                      'jaccard_coef': jaccard_coef},compile=False)
+    # model = load_model('/mnt/vol1/PycharmProjects/segmentation_models-master/Linknet_bce_loss/2/12.h5',
     #                    custom_objects={'bce_jaccard_loss': bce_jaccard_loss,'iou_score':iou_score})
-
-
     return model
 
 model = read_model()
 print(model.summary())
 
-data_path = '/mnt/vol1/Project_Deployments/satellite_image_segmentation_deploy/training images/Images_With_Annotation_(copy)/'
+data_path = '/home/ceinfo/Desktop/1/'
 num_channels = 3
 num_mask_channels = 1
 threshold = 0.1
@@ -100,7 +102,7 @@ def read_image_test(data_path,image_id):
     #img=mpimg.imread(data_path+image_id)[:,:,:3]
 
     '''for roads preprocessed images '''
-    img=mpimg.imread('/mnt/vol1/Project_Deployments/satellite_image_segmentation_deploy/training images/Images_With_Annotation_(copy)/'+image_id)[:,:,:3]
+    img=mpimg.imread('/home/ceinfo/Desktop/1/'+image_id)[:,:,:3]
 
     img = img.astype(np.float32)
     img = img/255;
@@ -110,16 +112,16 @@ for image_id in test_ids:
     print("Predicting: ", image_id)
     with tf.device('/gpu:0'):
         image = read_image_test(data_path,image_id)
-        predicted_mask = extra_functions.make_prediction_cropped(model, image, batch_size, size=(512,512))
+        predicted_mask = extra_functions.make_prediction_cropped(model, image, batch_size, size=(256,256))
 
         image_v = flip_axis(image, 0)
-        predicted_mask_v = extra_functions.make_prediction_cropped(model, image_v,batch_size, size=(512,512))
+        predicted_mask_v = extra_functions.make_prediction_cropped(model, image_v,batch_size, size=(256,256))
 
         image_h = flip_axis(image, 1)
-        predicted_mask_h = extra_functions.make_prediction_cropped(model, image_h,batch_size, size=(512,512))
+        predicted_mask_h = extra_functions.make_prediction_cropped(model, image_h,batch_size, size=(256,256))
 
         image_s = image.swapaxes(0, 1)
-        predicted_mask_s = extra_functions.make_prediction_cropped(model, image_s,batch_size,  size=(512,512))
+        predicted_mask_s = extra_functions.make_prediction_cropped(model, image_s,batch_size,  size=(256,256))
         new_mask = np.power(predicted_mask *
                             flip_axis(predicted_mask_v, 0) *
                             flip_axis(predicted_mask_h, 1) *
@@ -127,8 +129,8 @@ for image_id in test_ids:
         new_mask[new_mask >= threshold] = 1;
         new_mask[new_mask < threshold] = 0;
         """code to save the predicted image as jpg"""
-        os.makedirs("/home/ceinfo/Desktop/habitat_Test/" + str(date.today()) + "/overlays", exist_ok=True)
-        plt.imsave("/home/ceinfo/Desktop/habitat_Test/" + str(date.today()) + '/' + image_id[:-4]+".png", np.squeeze(new_mask,-1)*255,cmap='gray',dpi=1)
+        os.makedirs("/home/ceinfo/Desktop/3/" + str(date.today()) + "/overlays", exist_ok=True)
+        plt.imsave("/home/ceinfo/Desktop/3/" + str(date.today()) + '/' + image_id[:-4]+".png", np.squeeze(new_mask,-1)*255,cmap='gray',dpi=1)
 
 
         alpha=0.6
@@ -139,5 +141,4 @@ for image_id in test_ids:
         image[:,:,0] += ((color_mask*255)*0.3)[:,:,0]
         # print(image)
     
-    plt.imsave("/home/ceinfo/Desktop/habitat_Test/" + str(date.today()) + "/overlays/overlay_"+image_id[:-4]+".png",image,dpi=1)
-
+    plt.imsave("/home/ceinfo/Desktop/3/" + str(date.today()) + "/overlays/overlay_"+image_id[:-4]+".png",image,dpi=1)
