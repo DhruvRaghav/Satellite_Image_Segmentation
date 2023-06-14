@@ -14,17 +14,23 @@ def read_image(image_id):
     #path of images whose preprocessing is already done . Contains image with tab files
 
     '''for bulding footprint preprocessed images '''
-    img=mpimg.imread('/mnt/vol1/DhruvRaghav/PROJECTS/satellite_image_segmentation_deploy_DhruvRaghav/training images/Images_With_Annotation_(copy)/'+image_id)
+    img=mpimg.imread('/mnt/vol2/desktop_sep/7_sep/training_images/'+image_id)
 
 
     '''for roads preprocessed images '''
+    #img=mpimg.imread('/home/ceinfo/Documents/training_data_satellite_images/road/images/'+image_id)
     img = img.astype(np.float16)
     img = img/255;
     return img
 
 def read_image_test(image_id):
+    #images on which testing is to be done. supply fresh images.
+
     '''for building preprocessed images '''
-    img=mpimg.imread('/home/ceinfo/Documents/training_data_satellite_images/road/test_images/'+image_id)[:,:,:3]
+    #img=mpimg.imread('/mnt/vol1/DhruvRaghav/PROJECTS/satellite_image_segmentation_deploy_DhruvRaghav/training images/test_imgs/'+image_id)[:,:,:3]
+
+    '''for roads preprocessed images '''
+    img=mpimg.imread('/mnt/vol2/desktop_sep/7_sep/training_images/'+image_id)[:,:,:3]
 
     img = img.astype(np.float32)
     img = img/255;
@@ -33,8 +39,10 @@ def read_image_test(image_id):
 
 def read_mask(i):
     '''for building preprocessed images '''
+    #mask = cv2.imread('/mnt/vol1/DhruvRaghav/PROJECTS/satellite_image_segmentation_deploy_DhruvRaghav/training images/satellite_image_with_masks/FP_Mask_3/'+i)
+
     '''for roads preprocessed images '''
-    mask = cv2.imread('/home/ceinfo/Documents/training_data_satellite_images/road/masks/' + i)
+    mask = cv2.imread('/mnt/vol2/desktop_sep/7_sep/uploads03/' + i)
 
     mask=cv2.cvtColor(mask,cv2.COLOR_BGR2GRAY)
     mask = np.expand_dims(mask,axis=-1)

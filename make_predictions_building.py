@@ -12,6 +12,7 @@ from datetime import date
 from keras import backend as K
 from keras.backend import binary_crossentropy
 import tensorflow as tf
+
 import matplotlib.image as mpimg
 # from segmentation_models.losses import bce_jaccard_loss
 # from segmentation_models.metrics import iou_score
@@ -65,7 +66,7 @@ def read_model(cross=''):
 model = read_model()
 print(model.summary())
 
-data_path = '/mnt/vol1/Project_Deployments/satellite_image_segmentation_deploy/training images/Images_With_Annotation_(copy)/'
+data_path = '/home/ceinfo/Desktop/2222/'
 num_channels = 3
 num_mask_channels = 1
 threshold = 0.1
@@ -73,11 +74,12 @@ threshold = 0.1
 ids = []
 test_ids = []
 for (dirpath, dirnames, filenames) in walk(data_path):
+    print(filenames)
     ids.extend(filenames)
     break
 
 for i in ids:
-    if 'jpg' in i:
+    if 'jpg' or 'png' in i:
         test_ids.append(i)
 print("Number of images: ",len(test_ids))
 
@@ -97,10 +99,10 @@ def read_image_test(data_path,image_id):
     #images on which testing is to be done. supply fresh images.
 
     '''for building preprocessed images '''
-    #img=mpimg.imread(data_path+image_id)[:,:,:3]
+    img=mpimg.imread(data_path+image_id)[:,:,:3]
 
     '''for roads preprocessed images '''
-    img=mpimg.imread('/mnt/vol1/Project_Deployments/satellite_image_segmentation_deploy/training images/Images_With_Annotation_(copy)/'+image_id)[:,:,:3]
+    #img=mpimg.imread('/home/ceinfo/Desktop/Images_Extraction/STATE_IMAGE/UP/'+image_id)[:,:,:3]
 
     img = img.astype(np.float32)
     img = img/255;
@@ -126,9 +128,10 @@ for image_id in test_ids:
                             predicted_mask_s.swapaxes(0, 1), 0.25)
         new_mask[new_mask >= threshold] = 1;
         new_mask[new_mask < threshold] = 0;
+
         """code to save the predicted image as jpg"""
-        os.makedirs("/home/ceinfo/Desktop/habitat_Test/" + str(date.today()) + "/overlays", exist_ok=True)
-        plt.imsave("/home/ceinfo/Desktop/habitat_Test/" + str(date.today()) + '/' + image_id[:-4]+".png", np.squeeze(new_mask,-1)*255,cmap='gray',dpi=1)
+        os.makedirs("/home/ceinfo/Desktop/2222/overlay/" + str(date.today()) + "/overlays", exist_ok=True)
+        plt.imsave("/home/ceinfo/Desktop/2222/overlay/" + str(date.today()) + '/' + image_id[:-4]+".png", np.squeeze(new_mask,-1)*255,cmap='gray',dpi=1)
 
 
         alpha=0.6
@@ -139,5 +142,6 @@ for image_id in test_ids:
         image[:,:,0] += ((color_mask*255)*0.3)[:,:,0]
         # print(image)
     
-    plt.imsave("/home/ceinfo/Desktop/habitat_Test/" + str(date.today()) + "/overlays/overlay_"+image_id[:-4]+".png",image,dpi=1)
+    plt.imsave("/home/ceinfo/Desktop/2222/overlay/" + str(date.today()) + "/overlays/overlay_"+image_id[:-4]+".png",image,dpi=1)
 
+del(model)

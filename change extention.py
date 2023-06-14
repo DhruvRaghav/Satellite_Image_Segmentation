@@ -1,0 +1,1 @@
+''' for f in *.tif; do mv -- "$f" "${f%.tif}.tiff"; done'''
